@@ -1,0 +1,24 @@
+{
+  "name": "cdv_js",
+  "version": "1.0.0",
+  "description": "This project will use car specification data to create interactive visualizations relating to various performance categories.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pangb86/Cars-Data-Visualizer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pangb86/Cars-Data-Visualizer/issues"
+  },
+  "homepage": "https://github.com/pangb86/Cars-Data-Visualizer#readme",
+  "dependencies": {
+    "chart.js": "^2.7.1",
+    "webpack": "^3.10.0"
+  }
+}
