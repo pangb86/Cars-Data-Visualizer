@@ -17292,21 +17292,30 @@ function makeChart(carMakes, count) {
   });
 }
 
-function makeSpiderChart(carScoreObj) {
+function makeSpiderChart(carScoreObj1, carScoreObj2) {
   new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(document.getElementById("radar-chart"), {
     type: 'radar',
     data: {
       labels: ["Horsepower", "Torque", "Acceleration", "Top Speed", "Weight"],
       datasets: [
         {
-          label: carScoreObj.model,
+          label: carScoreObj1.model,
           fill: true,
           backgroundColor: "rgba(179,181,198,0.2)",
           borderColor: "rgba(179,181,198,1)",
           pointBorderColor: "#fff",
           pointBackgroundColor: "rgba(179,181,198,1)",
-          data: carScoreObj.scores
-        }
+          data: carScoreObj1.scores
+        },
+        {
+         label: carScoreObj2.model,
+         fill: true,
+         backgroundColor: "rgba(255,99,132,0.2)",
+         borderColor: "rgba(255,99,132,1)",
+         pointBorderColor: "#fff",
+         pointBackgroundColor: "rgba(255,99,132,1)",
+         data: carScoreObj2.scores
+       }
       ]
     },
     options: {
@@ -17314,10 +17323,12 @@ function makeSpiderChart(carScoreObj) {
         display: true,
         text: 'Performance Radar'
       },
-      // scaleOverride: true,
-      // scaleSteps: 5,
-      // scaleStepWidth: 2,
-      // scaleStartValue: 0
+      scale: {
+        ticks: {
+          min: 0,
+          max: 10
+        }
+    }
     }
   });
 }
@@ -17347,15 +17358,21 @@ function carData() {
       let carModel = car.model_name;
       let carTrim = car.model_trim;
       let fullName = `${carMake} ${carModel} ${carTrim}`;
+      // 700PS
       let powerScore = Math.round((car.model_engine_power_ps / 700) * 100) / 10;
+      if (powerScore > 10) powerScore = 10;
       // 800 NM
       let torqueScore = Math.round((car.model_engine_torque_nm / 800) * 100) / 10;
+      if (torqueScore > 10) torqueScore = 10;
       // 2.5sec to 62mph
       let accScore = Math.round((2.5 / car.model_0_to_100_kph) * 100) / 10;
+      if (accScore > 10) accScore = 10;
       // 375kmph
       let speedScore = Math.round((car.model_top_speed_kph / 375) * 100) / 10;
+      if (speedScore > 10) speedScore = 10;
       // 2500KG
       let weightScore = Math.round((car.model_weight_kg / 2500) * 100) / 10;
+      if (weightScore > 10) weightScore = 10;
       var carScores = [powerScore, torqueScore, accScore, speedScore, weightScore];
       carObj["model"] = fullName;
       carObj["scores"] = carScores;
@@ -17363,30 +17380,7 @@ function carData() {
     }
 
     console.log(carScoreArr);
-    makeSpiderChart(carScoreArr[0]);
-    // let testCar = filteredCarList[0];
-    // // 700 PS
-    // let powerScore = Math.round((testCar.model_engine_power_ps / 700) * 100) / 10;
-    // // 800 NM
-    // let torqueScore = Math.round((testCar.model_engine_torque_nm / 800) * 100) / 10;
-    // // 2.5sec to 62mph
-    // let accScore = Math.round((2.5 / testCar.model_0_to_100_kph) * 100) / 10;
-    // // 375kmph
-    // let speedScore = Math.round((testCar.model_top_speed_kph / 375) * 100) / 10;
-    // // 2500KG
-    // let weightScore = Math.round((testCar.model_weight_kg / 2500) * 100) / 10;
-
-    // console.log(testCar);
-    // console.log(powerScore);
-    // console.log(torqueScore);
-    // console.log(accScore);
-    // console.log(speedScore);
-    // console.log(weightScore);
-
-
-    // console.log(`${largestPower}PS - ${largestTorque}NM - ${largestTopSpeed}KMPH`);
-    // console.log(`${fastestAccleration}sec - ${heaviestWeight}KG`);
-
+    makeSpiderChart(carScoreArr[79],carScoreArr[398]);
 
     // code for manufactures/count chart
     let carMakeModelArr = [];
@@ -17412,7 +17406,7 @@ function carData() {
     }
     let makes = Object.keys(carMakeHash);
     let makesCount = Object.values(carMakeHash);
-    // makeChart(makes, makesCount);
+    makeChart(makes, makesCount);
 
 
   });
