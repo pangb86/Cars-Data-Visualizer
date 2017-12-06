@@ -1896,7 +1896,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(157)("./" + name);
+            __webpack_require__(158)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4531,7 +4531,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(156)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(157)(module)))
 
 /***/ }),
 /* 1 */
@@ -4541,9 +4541,9 @@ return hooks;
 
 
 module.exports = __webpack_require__(6);
-module.exports.easing = __webpack_require__(128);
-module.exports.canvas = __webpack_require__(129);
-module.exports.options = __webpack_require__(130);
+module.exports.easing = __webpack_require__(129);
+module.exports.canvas = __webpack_require__(130);
+module.exports.options = __webpack_require__(131);
 
 
 /***/ }),
@@ -4695,10 +4695,10 @@ module.exports = Element;
 
 
 module.exports = {};
-module.exports.Arc = __webpack_require__(136);
-module.exports.Line = __webpack_require__(137);
-module.exports.Point = __webpack_require__(138);
-module.exports.Rectangle = __webpack_require__(139);
+module.exports.Arc = __webpack_require__(137);
+module.exports.Line = __webpack_require__(138);
+module.exports.Point = __webpack_require__(139);
+module.exports.Rectangle = __webpack_require__(140);
 
 
 /***/ }),
@@ -5263,8 +5263,8 @@ helpers.getValueAtIndexOrDefault = helpers.valueAtIndexOrDefault;
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(132);
-var string = __webpack_require__(134);
+var convert = __webpack_require__(133);
+var string = __webpack_require__(135);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -6094,8 +6094,8 @@ module.exports = {
 
 
 var helpers = __webpack_require__(1);
-var basic = __webpack_require__(140);
-var dom = __webpack_require__(141);
+var basic = __webpack_require__(141);
+var dom = __webpack_require__(142);
 
 // @TODO Make possible to select another platform at build time.
 var implementation = dom._enabled ? dom : basic;
@@ -17253,16 +17253,65 @@ return zhTw;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__chart_util__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__carlist_util__ = __webpack_require__(176);
+
+
+
+function carData() {
+  const baseUrl = "https://www.carqueryapi.com/api/0.3/";
+  // call to Carquery API
+  $.getJSON(baseUrl+"?callback=?", {cmd:"getTrims", min_power:400, min_top_speed: 10, min_torque: 10, min_weight:10 }, (data) => {
+    const carList = data.Trims;
+    // full car list array of objects
+    console.log(carList);
+    // radar chat array of car objects
+    let carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
+    // test radar chart
+    __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[400],carScoreArr[123]);
+    // hash containing manufacture and model count
+    let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
+    // convert hash into arrays for making bar chart
+    let makes = Object.keys(carMakeHash);
+    let makesCount = Object.values(carMakeHash);
+    // test bar chart
+    __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeBarChart */](makes, makesCount);
+    // count of models by country
+    let countryCount = {};
+    for (var i = 0; i < carList.length; i++) {
+      let currentCar = carList[i];
+      let country = currentCar.make_country;
+      if (countryCount[country] === undefined) {
+        countryCount[country] = 1;
+      } else {
+        countryCount[country] += 1;
+      }
+    }
+    console.log(countryCount);
+
+    // add cars to select dropdown
+    var selectBox = document.getElementById('cars');
+    
+  });
+}
+
+carData();
+// makeChart();
+
+
+/***/ }),
+/* 126 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
 
 
-var colors = [];
-
+// array of CSS colors
 var COLOR_NAMES = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
 
-
-function makeChart(carMakes, count) {
+const makeBarChart = (carMakes, count) => {
   var carColors = COLOR_NAMES.slice(0, carMakes.length);
   var ctx = document.getElementById("chart").getContext('2d');
   var myChart = new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(ctx, {
@@ -17290,9 +17339,11 @@ function makeChart(carMakes, count) {
         }
       }
   });
-}
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = makeBarChart;
 
-function makeSpiderChart(carScoreObj1, carScoreObj2) {
+
+const makeSpiderChart = (carScoreObj1, carScoreObj2) => {
   new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(document.getElementById("radar-chart"), {
     type: 'radar',
     data: {
@@ -17331,104 +17382,24 @@ function makeSpiderChart(carScoreObj1, carScoreObj2) {
     }
     }
   });
-}
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = makeSpiderChart;
 
-function carData() {
-  const baseUrl = "https://www.carqueryapi.com/api/0.3/";
-
-  $.getJSON(baseUrl+"?callback=?", {cmd:"getTrims", min_power:400, min_top_speed: 10, min_torque: 10, min_weight:10 }, (data) => {
-    const carList = data.Trims;
-    // full car list array of objects
-    console.log(carList);
-    // filter out cars that don't have a 0-60 time
-    var filteredCarList = [];
-    for (var i = 0; i < carList.length; i++) {
-      let currentCar = carList[i];
-      if (currentCar.model_0_to_100_kph != null) {
-        filteredCarList.push(currentCar);
-      }
-    }
-    console.log(filteredCarList);
-    // create array of objects with a model name and scores array
-    var carScoreArr = [];
-    for (var i = 0; i < filteredCarList.length; i++) {
-      var car = filteredCarList[i];
-      var carObj = {};
-      let carMake = car.make_display;
-      let carModel = car.model_name;
-      let carTrim = car.model_trim;
-      let fullName = `${carMake} ${carModel} ${carTrim}`;
-      // 700PS
-      let powerScore = Math.round((car.model_engine_power_ps / 700) * 100) / 10;
-      if (powerScore > 10) powerScore = 10;
-      // 800 NM
-      let torqueScore = Math.round((car.model_engine_torque_nm / 800) * 100) / 10;
-      if (torqueScore > 10) torqueScore = 10;
-      // 2.5sec to 62mph
-      let accScore = Math.round((2.5 / car.model_0_to_100_kph) * 100) / 10;
-      if (accScore > 10) accScore = 10;
-      // 375kmph
-      let speedScore = Math.round((car.model_top_speed_kph / 375) * 100) / 10;
-      if (speedScore > 10) speedScore = 10;
-      // 2500KG
-      let weightScore = Math.round((car.model_weight_kg / 2500) * 100) / 10;
-      if (weightScore > 10) weightScore = 10;
-      var carScores = [powerScore, torqueScore, accScore, speedScore, weightScore];
-      carObj["model"] = fullName;
-      carObj["scores"] = carScores;
-      carScoreArr.push(carObj);
-    }
-
-    console.log(carScoreArr);
-    makeSpiderChart(carScoreArr[79],carScoreArr[398]);
-
-    // code for manufactures/count chart
-    let carMakeModelArr = [];
-    let carMakeArr = [];
-    let powerArr = [];
-    let topSpeedArr = [];
-    let carMakeHash={};
-    for (var i = 0; i < carList.length; i++) {
-      let currentCar = carList[i];
-      let carMake = currentCar.make_display;
-      let carModel = currentCar.model_name;
-      let carTrim = currentCar.model_trim;
-      let fullName = `${carMake} ${carModel} ${carTrim}`;
-      carMakeModelArr.push(fullName);
-      carMakeArr.push(carMake);
-      powerArr.push(currentCar.model_engine_power_ps);
-
-      if (carMakeHash[carMake] === undefined) {
-        carMakeHash[carMake] = 1;
-      } else {
-        carMakeHash[carMake] += 1;
-      }
-    }
-    let makes = Object.keys(carMakeHash);
-    let makesCount = Object.values(carMakeHash);
-    makeChart(makes, makesCount);
-
-
-  });
-}
-
-carData();
-// makeChart();
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(127)();
+var Chart = __webpack_require__(128)();
 
 Chart.helpers = __webpack_require__(1);
 
 // @todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!
-__webpack_require__(131)(Chart);
+__webpack_require__(132)(Chart);
 
 Chart.defaults = __webpack_require__(2);
 Chart.Element = __webpack_require__(3);
@@ -17436,7 +17407,6 @@ Chart.elements = __webpack_require__(4);
 Chart.Interaction = __webpack_require__(8);
 Chart.platform = __webpack_require__(9);
 
-__webpack_require__(142)(Chart);
 __webpack_require__(143)(Chart);
 __webpack_require__(144)(Chart);
 __webpack_require__(145)(Chart);
@@ -17444,39 +17414,40 @@ __webpack_require__(146)(Chart);
 __webpack_require__(147)(Chart);
 __webpack_require__(148)(Chart);
 __webpack_require__(149)(Chart);
-
 __webpack_require__(150)(Chart);
+
 __webpack_require__(151)(Chart);
 __webpack_require__(152)(Chart);
 __webpack_require__(153)(Chart);
 __webpack_require__(154)(Chart);
 __webpack_require__(155)(Chart);
+__webpack_require__(156)(Chart);
 
 // Controllers must be loaded after elements
 // See Chart.core.datasetController.dataElementType
-__webpack_require__(158)(Chart);
 __webpack_require__(159)(Chart);
 __webpack_require__(160)(Chart);
 __webpack_require__(161)(Chart);
 __webpack_require__(162)(Chart);
 __webpack_require__(163)(Chart);
 __webpack_require__(164)(Chart);
-
 __webpack_require__(165)(Chart);
+
 __webpack_require__(166)(Chart);
 __webpack_require__(167)(Chart);
 __webpack_require__(168)(Chart);
 __webpack_require__(169)(Chart);
 __webpack_require__(170)(Chart);
 __webpack_require__(171)(Chart);
+__webpack_require__(172)(Chart);
 
 // Loading built-it plugins
 var plugins = [];
 
 plugins.push(
-	__webpack_require__(172)(Chart),
 	__webpack_require__(173)(Chart),
-	__webpack_require__(174)(Chart)
+	__webpack_require__(174)(Chart),
+	__webpack_require__(175)(Chart)
 );
 
 Chart.plugins.register(plugins);
@@ -17501,7 +17472,7 @@ Chart.canvasHelpers = Chart.helpers.canvas;
 
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17557,7 +17528,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17814,7 +17785,7 @@ helpers.easingEffects = effects;
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18035,7 +18006,7 @@ helpers.drawRoundedRectangle = function(ctx) {
 
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18138,7 +18109,7 @@ module.exports = {
 
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18748,10 +18719,10 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(133);
+var conversions = __webpack_require__(134);
 
 var convert = function() {
    return new Converter();
@@ -18845,7 +18816,7 @@ Converter.prototype.getValues = function(space) {
 module.exports = convert;
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -19549,11 +19520,11 @@ for (var key in cssKeywords) {
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(135);
+var colorNames = __webpack_require__(136);
 
 module.exports = {
    getRgba: getRgba,
@@ -19776,7 +19747,7 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19935,7 +19906,7 @@ module.exports = {
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20049,7 +20020,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20147,7 +20118,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20260,7 +20231,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20484,7 +20455,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports) {
 
 /**
@@ -20505,7 +20476,7 @@ module.exports = {
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20969,7 +20940,7 @@ helpers.removeEvent = removeEventListener;
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21371,7 +21342,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21550,7 +21521,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22461,7 +22432,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22798,7 +22769,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23227,7 +23198,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23279,7 +23250,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24217,7 +24188,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25172,7 +25143,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25311,7 +25282,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25451,7 +25422,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25650,7 +25621,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25901,7 +25872,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26438,7 +26409,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27201,7 +27172,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -27229,7 +27200,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -27478,10 +27449,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 157;
+webpackContext.id = 158;
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27909,7 +27880,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28096,7 +28067,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28402,7 +28373,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28742,7 +28713,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28971,7 +28942,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29146,7 +29117,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29195,7 +29166,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29213,7 +29184,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29230,7 +29201,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29248,7 +29219,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29266,7 +29237,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29284,7 +29255,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29302,7 +29273,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29317,7 +29288,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29645,7 +29616,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30219,7 +30190,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30466,6 +30437,86 @@ module.exports = function(Chart) {
 		}
 	};
 };
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// returns array of car scores object for the radar chart
+const radarScores = (carList) => {
+  // filter out cars that don't have a 0-60 time
+  let filteredCarList = [];
+
+  for (var i = 0; i < carList.length; i++) {
+    let currentCar = carList[i];
+    if (currentCar.model_0_to_100_kph != null) {
+      filteredCarList.push(currentCar);
+    }
+  }
+
+  var carScoreArr = [];
+
+  for (var j = 0; j < filteredCarList.length; j++) {
+    let car = filteredCarList[j];
+    let carObj = {};
+    let carMake = car.make_display;
+    let carModel = car.model_name;
+    let carTrim = car.model_trim;
+    let fullName = `${carMake} ${carModel} ${carTrim}`;
+    // 700PS
+    let powerScore = Math.round((car.model_engine_power_ps / 700) * 100) / 10;
+    if (powerScore > 10) powerScore = 10;
+    // 800 NM
+    let torqueScore = Math.round((car.model_engine_torque_nm / 800) * 100) / 10;
+    if (torqueScore > 10) torqueScore = 10;
+    // 2.5sec to 62mph
+    let accScore = Math.round((2.5 / car.model_0_to_100_kph) * 100) / 10;
+    if (accScore > 10) accScore = 10;
+    // 375kmph
+    let speedScore = Math.round((car.model_top_speed_kph / 375) * 100) / 10;
+    if (speedScore > 10) speedScore = 10;
+    // 2500KG
+    let weightScore = Math.round((car.model_weight_kg / 2500) * 100) / 10;
+    if (weightScore > 10) weightScore = 10;
+    var carScores = [powerScore, torqueScore, accScore, speedScore, weightScore];
+    carObj["model"] = fullName;
+    carObj["scores"] = carScores;
+    carScoreArr.push(carObj);
+  }
+
+  return carScoreArr;
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = radarScores;
+
+
+const manufactureCount = (carList) => {
+  let carMakeModelArr = [];
+  let carMakeArr = [];
+  let powerArr = [];
+  let carMakeHash={};
+
+  for (var i = 0; i < carList.length; i++) {
+    let currentCar = carList[i];
+    let carMake = currentCar.make_display;
+    let carModel = currentCar.model_name;
+    let carTrim = currentCar.model_trim;
+    let fullName = `${carMake} ${carModel} ${carTrim}`;
+    carMakeModelArr.push(fullName);
+    carMakeArr.push(carMake);
+    powerArr.push(currentCar.model_engine_power_ps);
+    if (carMakeHash[carMake] === undefined) {
+      carMakeHash[carMake] = 1;
+    } else {
+      carMakeHash[carMake] += 1;
+    }
+  }
+
+  return carMakeHash;
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = manufactureCount;
+
 
 
 /***/ })
