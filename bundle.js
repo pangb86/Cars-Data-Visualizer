@@ -17264,10 +17264,17 @@ function carData() {
   $.getJSON(baseUrl+"?callback=?", {cmd:"getTrims", min_power:400, min_top_speed: 10, min_torque: 10, min_weight:10 }, (data) => {
     // full car list array of objects
     const carList = data.Trims;
+    console.log(carList);
     // radar chat array of car objects
     const carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
+    console.log(carScoreArr);
     // initial radar chart
     __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[0],carScoreArr[1]);
+    // initial car info fields
+    setInfoFields(carScoreArr[0], carScoreArr[1]);
+
+
+
     // hash containing manufacture and model count
     let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
     // convert hash into arrays for making bar chart
@@ -17319,9 +17326,35 @@ function carData() {
     compareButton.onclick = () => {
       let car1Idx = select1.options[select1.selectedIndex].value;
       let car2Idx = select2.options[select2.selectedIndex].value;
+      // populate car info table
+      // document.getElementById("car1-info-name").innerHTML = carScoreArr[car1Idx].model;
+      // document.getElementById("car1-info-power").innerHTML = `${carScoreArr[car1Idx].power} hp`;
+      // document.getElementById("car1-info-torque").innerHTML = `${carScoreArr[car1Idx].torque} ft-lbs`;
+      // document.getElementById("car1-info-acceleration").innerHTML = `${carScoreArr[car1Idx].acceleration} mph`;
+      // document.getElementById("car1-info-topspeed").innerHTML = `${carScoreArr[car1Idx].topspeed} mph`;
+      // document.getElementById("car1-info-weight").innerHTML = `${carScoreArr[car1Idx].weight} lbs`;
+      setInfoFields(carScoreArr[car1Idx], carScoreArr[car2Idx]);
+
       __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
     };
   });
+}
+
+function setInfoFields(car1, car2) {
+  // populate first car's info table
+  document.getElementById("car1-info-name").innerHTML = car1.model;
+  document.getElementById("car1-info-power").innerHTML = `${car1.power} hp`;
+  document.getElementById("car1-info-torque").innerHTML = `${car1.torque} ft-lbs`;
+  document.getElementById("car1-info-acceleration").innerHTML = `${car1.acceleration} mph`;
+  document.getElementById("car1-info-topspeed").innerHTML = `${car1.topspeed} mph`;
+  document.getElementById("car1-info-weight").innerHTML = `${car1.weight} lbs`;
+  // populate second cars info table
+  document.getElementById("car2-info-name").innerHTML = car2.model;
+  document.getElementById("car2-info-power").innerHTML = `${car2.power} hp`;
+  document.getElementById("car2-info-torque").innerHTML = `${car2.torque} ft-lbs`;
+  document.getElementById("car2-info-acceleration").innerHTML = `${car2.acceleration} mph`;
+  document.getElementById("car2-info-topspeed").innerHTML = `${car2.topspeed} mph`;
+  document.getElementById("car2-info-weight").innerHTML = `${car2.weight} lbs`;
 }
 
 carData();
@@ -30489,29 +30522,46 @@ const radarScores = (carList) => {
   for (var j = 0; j < filteredCarList.length; j++) {
     let car = filteredCarList[j];
     let carObj = {};
+    // create name string
     let carMake = car.make_display;
     let carModel = car.model_name;
     let carTrim = car.model_trim;
     let carYear = car.model_year;
     let fullName = `${carYear} ${carMake} ${carModel} ${carTrim}`;
-    // 700PS
+    // convert power from ps to hp
+    let carHp = Math.round(car.model_engine_power_ps * 0.98632);
+    // convert torque from Nm to ft-lbs
+    let carTorque = Math.round(car.model_engine_torque_nm / 1.3558)
+    // convert top speed to mph
+    let carTopSpeed = Math.round(car.model_top_speed_kph * 0.621371);
+    // convert weight from kg to lbs
+    let carWeight = Math.round(car.model_weight_kg * 2.20462);
+    // calculate scores for radar chart
+    // 700PS = 10
     let powerScore = Math.round((car.model_engine_power_ps / 700) * 100) / 10;
     if (powerScore > 10) powerScore = 10;
-    // 800 NM
+    // 800 NM = 10
     let torqueScore = Math.round((car.model_engine_torque_nm / 800) * 100) / 10;
     if (torqueScore > 10) torqueScore = 10;
-    // 2.5sec to 62mph
+    // 2.5sec to 62mph = 10
     let accScore = Math.round((2.5 / car.model_0_to_100_kph) * 100) / 10;
     if (accScore > 10) accScore = 10;
-    // 375kmph
+    // 375kmph = 10
     let speedScore = Math.round((car.model_top_speed_kph / 375) * 100) / 10;
     if (speedScore > 10) speedScore = 10;
-    // 2500KG
+    // 2500KG = 10
     let weightScore = Math.round((car.model_weight_kg / 2500) * 100) / 10;
     if (weightScore > 10) weightScore = 10;
     var carScores = [powerScore, torqueScore, accScore, speedScore, weightScore];
+    // assign values to keys in car object
     carObj["model"] = fullName;
     carObj["scores"] = carScores;
+    carObj["power"] = carHp;
+    carObj["torque"] = carTorque;
+    carObj["acceleration"] = car.model_0_to_100_kph;
+    carObj["topspeed"] = carTopSpeed;
+    carObj["weight"] = carWeight;
+    // add it to the car objects array
     carScoreArr.push(carObj);
   }
 

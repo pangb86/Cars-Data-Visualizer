@@ -7,6 +7,45 @@
   /*height: 1250px;*/
 }
 
+.chart-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+}
+
+.car1-info-container {
+  font-family: 'Muli', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 50px;
+  margin-top: 220px;
+}
+
+.car2-info-container {
+  font-family: 'Muli', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 50px;
+  margin-top: 220px;
+}
+
+.car1-info-tag, .car2-info-tag {
+  font-family: 'Muli', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #98989C;
+  margin-bottom: 8px;
+}
+
+#car1-info-name, #car2-info-name{
+  font-weight: 700;
+  margin-bottom: 12px;
+  border-bottom: 1px solid gray;
+}
+
 .bar-chart-container {
   margin-bottom: 50px;
 }
