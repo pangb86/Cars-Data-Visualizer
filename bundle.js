@@ -17262,12 +17262,11 @@ function carData() {
   const baseUrl = "https://www.carqueryapi.com/api/0.3/";
   // call to Carquery API
   $.getJSON(baseUrl+"?callback=?", {cmd:"getTrims", min_power:400, min_top_speed: 10, min_torque: 10, min_weight:10 }, (data) => {
-    const carList = data.Trims;
     // full car list array of objects
-    // console.log(carList);
+    const carList = data.Trims;
     // radar chat array of car objects
-    let carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
-    // test radar chart
+    const carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
+    // initial radar chart
     __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[0],carScoreArr[1]);
     // hash containing manufacture and model count
     let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
@@ -17276,6 +17275,7 @@ function carData() {
     let makesCount = Object.values(carMakeHash);
     // test bar chart
     __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeBarChart */](makes, makesCount);
+
     // count of models by country
     let countryCount = {};
     for (var i = 0; i < carList.length; i++) {
@@ -17289,13 +17289,23 @@ function carData() {
     }
     console.log(countryCount);
 
+    // give dropdowns a searchable feature
     $(document).ready(() => {
       $('.cars-select1').select2();
       $('.cars-select2').select2();
-      $('.cars-select1').change((e) => {
-        console.log($('cars-select1').selectedIndex);
-      });
     });
+
+    // assign the dropdowns to variables
+    let select1 = document.getElementById("cars2");
+    select1.onchange = () => {
+      let select1Val = select1.options[select1.selectedIndex].value;
+      console.log(select1Val);
+    };
+    let select2 = document.getElementById("cars1");
+    select2.onchange = () => {
+      let select2Val = select2.options[select2.selectedIndex].value;
+      console.log(select2Val);
+    };
 
     // add cars to select dropdown
     var optionsList1 = document.getElementById('cars1').options;
@@ -17303,6 +17313,13 @@ function carData() {
     carScoreArr.forEach( (option, idx) => optionsList1.add( new Option(option.model, idx) ) );
     carScoreArr.forEach( (option, idx) => optionsList2.add( new Option(option.model, idx) ) );
     console.log(carScoreArr);
+
+    var compareButton = document.getElementById("compare-button");
+    compareButton.onclick = () => {
+      let car1Idx = select1.options[select1.selectedIndex].value;
+      let car2Idx = select2.options[select2.selectedIndex].value;
+      __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
+    };
   });
 }
 
