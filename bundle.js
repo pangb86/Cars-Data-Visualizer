@@ -17264,11 +17264,11 @@ function carData() {
   $.getJSON(baseUrl+"?callback=?", {cmd:"getTrims", min_power:400, min_top_speed: 10, min_torque: 10, min_weight:10 }, (data) => {
     const carList = data.Trims;
     // full car list array of objects
-    console.log(carList);
+    // console.log(carList);
     // radar chat array of car objects
     let carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
     // test radar chart
-    __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[400],carScoreArr[123]);
+    __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[0],carScoreArr[1]);
     // hash containing manufacture and model count
     let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
     // convert hash into arrays for making bar chart
@@ -17289,9 +17289,20 @@ function carData() {
     }
     console.log(countryCount);
 
+    $(document).ready(() => {
+      $('.cars-select1').select2();
+      $('.cars-select2').select2();
+      $('.cars-select1').change((e) => {
+        console.log($('cars-select1').selectedIndex);
+      });
+    });
+
     // add cars to select dropdown
-    var selectBox = document.getElementById('cars');
-    
+    var optionsList1 = document.getElementById('cars1').options;
+    var optionsList2 = document.getElementById('cars2').options;
+    carScoreArr.forEach( (option, idx) => optionsList1.add( new Option(option.model, idx) ) );
+    carScoreArr.forEach( (option, idx) => optionsList2.add( new Option(option.model, idx) ) );
+    console.log(carScoreArr);
   });
 }
 
@@ -30464,7 +30475,8 @@ const radarScores = (carList) => {
     let carMake = car.make_display;
     let carModel = car.model_name;
     let carTrim = car.model_trim;
-    let fullName = `${carMake} ${carModel} ${carTrim}`;
+    let carYear = car.model_year;
+    let fullName = `${carYear} ${carMake} ${carModel} ${carTrim}`;
     // 700PS
     let powerScore = Math.round((car.model_engine_power_ps / 700) * 100) / 10;
     if (powerScore > 10) powerScore = 10;

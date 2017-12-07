@@ -1,0 +1,41 @@
+.main-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+  height: 1900px;
+}
+
+.bar-chart-container {
+  margin-bottom: 50px;
+}
+
+.radar-chart-container {
+  margin-top: 50px;
+}
+
+.select-container {
+  margin: 20px;
+}
+
+.cars-dropdowns {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 200px;
+  margin-bottom: 150px;
+}
+
+.cars-button {
+  background-color: #4286f4;
+   border: none;
+   color: white;
+   padding: 5px 10px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin-left: 20px;
+   border-radius: 4px;
+}

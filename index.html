@@ -3,23 +3,46 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="cdv.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <!-- <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script> -->
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
     <script src="bundle.js"></script>
   </head>
 
   <body>
+    <div class="main-container">
 
-    <div class="chart-container" style="position: relative; height:80vh; width:80vw">
-        <canvas id="chart"></canvas>
+      <div class="bar-chart-container" style="position: relative; height:50vh; width:80vw">
+          <canvas id="chart"></canvas>
+      </div>
+
+      <div class="radar-chart-container" style="position: relative; height:50vh; width:80vw">
+          <canvas id="radar-chart" width="400" height="300"></canvas>
+      </div>
+
+      <br/>
+      <br/>
+
+      <div class="cars-dropdowns">
+        <div class="select-container">
+          <select class="cars-select1" id="cars1">
+            <option selected="true" disabled="disabled">Choose Car</option>
+          </select>
+        </div>
+        <div class="select-container">
+          <select class="cars-select2" id="cars2">
+            <option selected="true" disabled="disabled">Choose Car</option>
+          </select>
+        </div>
+        <button type="button" class="cars-button" id="compare-button">Compare</button>
+      </div>
+
     </div>
-
-    <div class="chart-container" style="position: relative; height:80vh; width:80vw">
-        <canvas id="radar-chart" width="800" height="600"></canvas>
-    </div>
-
-    <select id="cars">
-              
-    </select>
   </body>
 </html>
