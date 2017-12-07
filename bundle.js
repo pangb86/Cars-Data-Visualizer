@@ -17267,14 +17267,15 @@ function carData() {
     // radar chat array of car objects
     const carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
     // initial radar chart
-    __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[0],carScoreArr[1]);
+    __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[0],carScoreArr[1]);
     // hash containing manufacture and model count
     let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
     // convert hash into arrays for making bar chart
     let makes = Object.keys(carMakeHash);
     let makesCount = Object.values(carMakeHash);
+
     // test bar chart
-    __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeBarChart */](makes, makesCount);
+    // ChartUtil.makeBarChart(makes, makesCount);
 
     // count of models by country
     let countryCount = {};
@@ -17289,7 +17290,7 @@ function carData() {
     }
     console.log(countryCount);
 
-    // give dropdowns a searchable feature
+    // give dropdowns a searchable feature with select2
     $(document).ready(() => {
       $('.cars-select1').select2();
       $('.cars-select2').select2();
@@ -17312,19 +17313,18 @@ function carData() {
     var optionsList2 = document.getElementById('cars2').options;
     carScoreArr.forEach( (option, idx) => optionsList1.add( new Option(option.model, idx) ) );
     carScoreArr.forEach( (option, idx) => optionsList2.add( new Option(option.model, idx) ) );
-    console.log(carScoreArr);
 
+    // add onclick callback to re-render chart with selected cars
     var compareButton = document.getElementById("compare-button");
     compareButton.onclick = () => {
       let car1Idx = select1.options[select1.selectedIndex].value;
       let car2Idx = select2.options[select2.selectedIndex].value;
-      __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
+      __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
     };
   });
 }
 
 carData();
-// makeChart();
 
 
 /***/ }),
@@ -17368,7 +17368,7 @@ const makeBarChart = (carMakes, count) => {
       }
   });
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = makeBarChart;
+/* unused harmony export makeBarChart */
 
 
 const makeSpiderChart = (carScoreObj1, carScoreObj2) => {
@@ -17400,7 +17400,7 @@ const makeSpiderChart = (carScoreObj1, carScoreObj2) => {
     options: {
       title: {
         display: true,
-        text: 'Performance Radar'
+        text: 'Performance Comparison'
       },
       scale: {
         ticks: {
@@ -17411,7 +17411,7 @@ const makeSpiderChart = (carScoreObj1, carScoreObj2) => {
     }
   });
 };
-/* harmony export (immutable) */ __webpack_exports__["b"] = makeSpiderChart;
+/* harmony export (immutable) */ __webpack_exports__["a"] = makeSpiderChart;
 
 
 

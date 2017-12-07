@@ -2,9 +2,9 @@
   border: 1px solid black;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: baseline;
-  height: 1900px;
+  justify-content: flex-start;
+  align-items:center;
+  /*height: 1250px;*/
 }
 
 .bar-chart-container {
@@ -12,20 +12,19 @@
 }
 
 .radar-chart-container {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .select-container {
-  margin: 20px;
+  margin: 20px
 }
 
 .cars-dropdowns {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-left: 200px;
-  margin-bottom: 150px;
-  margin-top: 50px;
+  /*margin-left: 200px;*/
+  margin-bottom: 20px;
 }
 
 .cars-button {
