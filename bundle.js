@@ -17264,10 +17264,8 @@ function carData() {
   $.getJSON(baseUrl+"?callback=?", {cmd:"getTrims", min_power:400, min_top_speed: 10, min_torque: 10, min_weight:10 }, (data) => {
     // full car list array of objects
     const carList = data.Trims;
-    console.log(carList);
     // radar chat array of car objects
     const carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
-    console.log(carScoreArr);
     // pick two random cars to display
     var randomCar1 = Math.floor(Math.random() * (carScoreArr.length));
     var randomCar2 = Math.floor(Math.random() * (carScoreArr.length));
@@ -17287,7 +17285,6 @@ function carData() {
         countryCount[country] += 1;
       }
     }
-    console.log(countryCount);
 
     // give dropdowns a searchable feature with select2
     $(document).ready(() => {
@@ -17297,15 +17294,7 @@ function carData() {
 
     // assign the dropdowns to variables
     let select1 = document.getElementById("cars2");
-    select1.onchange = () => {
-      let select1Val = select1.options[select1.selectedIndex].value;
-      console.log(select1Val);
-    };
     let select2 = document.getElementById("cars1");
-    select2.onchange = () => {
-      let select2Val = select2.options[select2.selectedIndex].value;
-      console.log(select2Val);
-    };
 
     // add cars to select dropdown
     let optionsList1 = document.getElementById('cars1').options;
@@ -17324,19 +17313,20 @@ function carData() {
       __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
     };
 
+    // opens the side pane on click and renders the bar graph
     let openButton = document.getElementById("graph-button");
     openButton.onclick = () => {
-      console.log("hello");
       // hash containing manufacture and model count
       let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
       // convert hash into arrays for making bar chart
       let makes = Object.keys(carMakeHash);
       let makesCount = Object.values(carMakeHash);
-      // test bar chart
+      // render bar chart
       __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeBarChart */](makes, makesCount);
       document.getElementById("mySidenav").style.width = "100%";
     };
 
+    // closes the side pane on click
     let closeButton = document.getElementById("close-button");
     closeButton.onclick = () => {
       document.getElementById("mySidenav").style.width = "0";
