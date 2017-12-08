@@ -11,53 +11,22 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-    <!-- <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script> -->
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
     <script src="bundle.js"></script>
   </head>
 
   <body>
     <div class="main-container">
-
-      <!-- <div class="bar-chart-container" style="position: relative; height:50vh; width:80vw">
-          <canvas id="chart"></canvas>
-      </div> -->
-
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" id="close-button">&times;</a>
+        <div class="bar-chart-container" style="position: relative; height:85vh; width:85vh">
+            <canvas id="chart" width="1200" height="1000"></canvas>
+        </div>
+      </div>
       <div class="chart-info-container">
         <div class="radar-chart-container" style="position: relative; height:78vh; width:78vh">
             <canvas id="radar-chart" width="700" height="700"></canvas>
         </div>
-
-        <div class="car1-info-container">
-          <div id="car1-info-name">
-          </div>
-          <div id="car1-info-power">
-          </div>
-          <div class="car1-info-tag">
-            power
-          </div>
-          <div id="car1-info-torque">
-          </div>
-          <div class="car1-info-tag">
-            torque
-          </div>
-          <div id="car1-info-weight">
-          </div>
-          <div class="car1-info-tag">
-            weight
-          </div>
-          <div id="car1-info-acceleration">
-          </div>
-          <div class="car1-info-tag">
-            0mph to 60mph
-          </div>
-          <div id="car1-info-topspeed">
-          </div>
-          <div class="car1-info-tag">
-            top speed
-          </div>
-        </div>
-
         <div class="car2-info-container">
           <div id="car2-info-name">
           </div>
@@ -87,11 +56,37 @@
             top speed
           </div>
         </div>
-
+        <div class="car1-info-container">
+          <div id="car1-info-name">
+          </div>
+          <div id="car1-info-power">
+          </div>
+          <div class="car1-info-tag">
+            power
+          </div>
+          <div id="car1-info-torque">
+          </div>
+          <div class="car1-info-tag">
+            torque
+          </div>
+          <div id="car1-info-weight">
+          </div>
+          <div class="car1-info-tag">
+            weight
+          </div>
+          <div id="car1-info-acceleration">
+          </div>
+          <div class="car1-info-tag">
+            0mph to 60mph
+          </div>
+          <div id="car1-info-topspeed">
+          </div>
+          <div class="car1-info-tag">
+            top speed
+          </div>
+        </div>
       </div>
-
       <br/>
-
       <div class="cars-dropdowns">
         <div class="select-container">
           <select class="cars-select1" id="cars1">
@@ -109,8 +104,14 @@
             Compare
           </div>
         </button>
-      </div>
 
+        <button type="button" class="chart-button" id="graph-button">
+          <span id="chart-icon"></span>
+          <div>
+            Model Count
+          </div>
+        </button>
+      </div>
     </div>
   </body>
 </html>

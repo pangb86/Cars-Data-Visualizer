@@ -17268,24 +17268,13 @@ function carData() {
     // radar chat array of car objects
     const carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
     console.log(carScoreArr);
-
+    // pick two random cars to display
     var randomCar1 = Math.floor(Math.random() * (carScoreArr.length));
     var randomCar2 = Math.floor(Math.random() * (carScoreArr.length));
-    console.log(randomCar1);
-    console.log(randomCar2);
-
     // initial radar chart
-    __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[randomCar1],carScoreArr[randomCar2]);
+    __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[randomCar1],carScoreArr[randomCar2]);
     // initial car info fields
-    setInfoFields(carScoreArr[randomCar1], carScoreArr[randomCar2]);
-
-    // hash containing manufacture and model count
-    let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
-    // convert hash into arrays for making bar chart
-    let makes = Object.keys(carMakeHash);
-    let makesCount = Object.values(carMakeHash);
-    // test bar chart
-    // ChartUtil.makeBarChart(makes, makesCount);
+    setInfoFields(carScoreArr[randomCar2], carScoreArr[randomCar1]);
 
     // count of models by country
     let countryCount = {};
@@ -17319,18 +17308,38 @@ function carData() {
     };
 
     // add cars to select dropdown
-    var optionsList1 = document.getElementById('cars1').options;
-    var optionsList2 = document.getElementById('cars2').options;
+    let optionsList1 = document.getElementById('cars1').options;
+    let optionsList2 = document.getElementById('cars2').options;
     carScoreArr.forEach( (option, idx) => optionsList1.add( new Option(option.model, idx) ) );
     carScoreArr.forEach( (option, idx) => optionsList2.add( new Option(option.model, idx) ) );
 
     // add onclick callback to re-render chart with selected cars
-    var compareButton = document.getElementById("compare-button");
+    let compareButton = document.getElementById("compare-button");
     compareButton.onclick = () => {
       let car1Idx = select1.options[select1.selectedIndex].value;
       let car2Idx = select2.options[select2.selectedIndex].value;
       // populate car info table
-      __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
+      setInfoFields(carScoreArr[car1Idx], carScoreArr[car2Idx]);
+      // re-render the spider chart
+      __WEBPACK_IMPORTED_MODULE_0__chart_util__["b" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
+    };
+
+    let openButton = document.getElementById("graph-button");
+    openButton.onclick = () => {
+      console.log("hello");
+      // hash containing manufacture and model count
+      let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
+      // convert hash into arrays for making bar chart
+      let makes = Object.keys(carMakeHash);
+      let makesCount = Object.values(carMakeHash);
+      // test bar chart
+      __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeBarChart */](makes, makesCount);
+      document.getElementById("mySidenav").style.width = "100%";
+    };
+
+    let closeButton = document.getElementById("close-button");
+    closeButton.onclick = () => {
+      document.getElementById("mySidenav").style.width = "0";
     };
   });
 }
@@ -17365,7 +17374,7 @@ carData();
 
 
 // array of CSS colors
-var COLOR_NAMES = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
+var COLOR_NAMES = ["LimeGreen","Aqua","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Coral","CornflowerBlue","YellowGreen","Crimson","Cyan","DarkCyan","DarkGoldenRod","Aquamarine","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow"];
 
 const makeBarChart = (carMakes, count) => {
   var carColors = COLOR_NAMES.slice(0, carMakes.length);
@@ -17375,7 +17384,7 @@ const makeBarChart = (carMakes, count) => {
       data: {
           labels: carMakes,
           datasets: [{
-              label: '# of Models over 500HP',
+              label: '  # of Models over 400HP',
               data: count,
               backgroundColor: carColors
           }]
@@ -17384,7 +17393,7 @@ const makeBarChart = (carMakes, count) => {
         legend: { display: false },
         title: {
           display: true,
-          text: "Manufactures of Cars Over 500HP"
+          text: "Manufactures of Cars Over 400HP"
         },
         scales: {
             yAxes: [{
@@ -17396,7 +17405,7 @@ const makeBarChart = (carMakes, count) => {
       }
   });
 };
-/* unused harmony export makeBarChart */
+/* harmony export (immutable) */ __webpack_exports__["a"] = makeBarChart;
 
 
 const makeSpiderChart = (carScoreObj1, carScoreObj2) => {
@@ -17439,7 +17448,7 @@ const makeSpiderChart = (carScoreObj1, carScoreObj2) => {
     }
   });
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = makeSpiderChart;
+/* harmony export (immutable) */ __webpack_exports__["b"] = makeSpiderChart;
 
 
 
