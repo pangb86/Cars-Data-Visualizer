@@ -17268,19 +17268,22 @@ function carData() {
     // radar chat array of car objects
     const carScoreArr = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["b" /* radarScores */](carList);
     console.log(carScoreArr);
+
+    var randomCar1 = Math.floor(Math.random() * (carScoreArr.length));
+    var randomCar2 = Math.floor(Math.random() * (carScoreArr.length));
+    console.log(randomCar1);
+    console.log(randomCar2);
+
     // initial radar chart
-    __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[0],carScoreArr[1]);
+    __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[randomCar1],carScoreArr[randomCar2]);
     // initial car info fields
-    setInfoFields(carScoreArr[0], carScoreArr[1]);
-
-
+    setInfoFields(carScoreArr[randomCar1], carScoreArr[randomCar2]);
 
     // hash containing manufacture and model count
     let carMakeHash = __WEBPACK_IMPORTED_MODULE_1__carlist_util__["a" /* manufactureCount */](carList);
     // convert hash into arrays for making bar chart
     let makes = Object.keys(carMakeHash);
     let makesCount = Object.values(carMakeHash);
-
     // test bar chart
     // ChartUtil.makeBarChart(makes, makesCount);
 
@@ -17327,14 +17330,6 @@ function carData() {
       let car1Idx = select1.options[select1.selectedIndex].value;
       let car2Idx = select2.options[select2.selectedIndex].value;
       // populate car info table
-      // document.getElementById("car1-info-name").innerHTML = carScoreArr[car1Idx].model;
-      // document.getElementById("car1-info-power").innerHTML = `${carScoreArr[car1Idx].power} hp`;
-      // document.getElementById("car1-info-torque").innerHTML = `${carScoreArr[car1Idx].torque} ft-lbs`;
-      // document.getElementById("car1-info-acceleration").innerHTML = `${carScoreArr[car1Idx].acceleration} mph`;
-      // document.getElementById("car1-info-topspeed").innerHTML = `${carScoreArr[car1Idx].topspeed} mph`;
-      // document.getElementById("car1-info-weight").innerHTML = `${carScoreArr[car1Idx].weight} lbs`;
-      setInfoFields(carScoreArr[car1Idx], carScoreArr[car2Idx]);
-
       __WEBPACK_IMPORTED_MODULE_0__chart_util__["a" /* makeSpiderChart */](carScoreArr[car2Idx],carScoreArr[car1Idx]);
     };
   });
@@ -17345,14 +17340,14 @@ function setInfoFields(car1, car2) {
   document.getElementById("car1-info-name").innerHTML = car1.model;
   document.getElementById("car1-info-power").innerHTML = `${car1.power} hp`;
   document.getElementById("car1-info-torque").innerHTML = `${car1.torque} ft-lbs`;
-  document.getElementById("car1-info-acceleration").innerHTML = `${car1.acceleration} mph`;
+  document.getElementById("car1-info-acceleration").innerHTML = `${car1.acceleration} sec`;
   document.getElementById("car1-info-topspeed").innerHTML = `${car1.topspeed} mph`;
   document.getElementById("car1-info-weight").innerHTML = `${car1.weight} lbs`;
   // populate second cars info table
   document.getElementById("car2-info-name").innerHTML = car2.model;
   document.getElementById("car2-info-power").innerHTML = `${car2.power} hp`;
   document.getElementById("car2-info-torque").innerHTML = `${car2.torque} ft-lbs`;
-  document.getElementById("car2-info-acceleration").innerHTML = `${car2.acceleration} mph`;
+  document.getElementById("car2-info-acceleration").innerHTML = `${car2.acceleration} sec`;
   document.getElementById("car2-info-topspeed").innerHTML = `${car2.topspeed} mph`;
   document.getElementById("car2-info-weight").innerHTML = `${car2.weight} lbs`;
 }
@@ -30531,7 +30526,7 @@ const radarScores = (carList) => {
     // convert power from ps to hp
     let carHp = Math.round(car.model_engine_power_ps * 0.98632);
     // convert torque from Nm to ft-lbs
-    let carTorque = Math.round(car.model_engine_torque_nm / 1.3558)
+    let carTorque = Math.round(car.model_engine_torque_nm / 1.3558);
     // convert top speed to mph
     let carTopSpeed = Math.round(car.model_top_speed_kph * 0.621371);
     // convert weight from kg to lbs
