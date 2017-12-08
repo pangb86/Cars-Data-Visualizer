@@ -12,14 +12,18 @@ Users may select cars from two searchable drop-down menus and click compare to r
 that displays the normalized ratings of five performance categories. The selected cars' specifications are
 dynamically displayed next to the radar chart, changing upon re-render of the chart.  
 
+![alt text](https://raw.githubusercontent.com/pangb86/Cars-Data-Visualizer/master/readme_images/radar_chart.png "Radar Chart")
+
 ## Manufacture Bar Chart
 
 Users may display the manufactures bar chart, which displays the number of models over 400HP for each make. The display is
 a sliding pane activated on the click of the model count button; the pane animation is done with CSS3 and Javascript triggers
 the opening and closing actions.  
 
+![alt text](https://raw.githubusercontent.com/pangb86/Cars-Data-Visualizer/master/readme_images/bar_chart.png "Bar Chart")
+
 ## Future Additions
 
 Future add-ons include a map displaying the countries of origin of performance models, with a hover tooltip indicating
 the number of models from that particular country. Also planned is the utilization of the d3.js library to create more dynamic
-data visualizations. 
+data visualizations.
